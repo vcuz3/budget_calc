@@ -12,6 +12,32 @@ import calendar
 import plotly.express as px
 from google.oauth2.service_account import Credentials
 
+#%%
+# ---------- Password Hashing Utility ----------
+def hash_password(password):
+    return hashlib.sha256(password.encode()).hexdigest()
+
+# ---------- Access Control ----------
+if "authenticated" not in st.session_state:
+    st.session_state["authenticated"] = False
+
+if not st.session_state["authenticated"]:
+    st.title("🔐 Secure Budget Tracker Login")
+    users = {
+        "anna": st.secrets["auth"]["anna"],
+        "vu": st.secrets["auth"]["vu"]
+    }
+    username = st.text_input("Username")
+    password = st.text_input("Password", type="password")
+    if st.button("Login"):
+        if username in users and hash_password(password) == users[username]:
+            st.session_state["authenticated"] = True
+            st.session_state["username"] = username
+            st.experimental_rerun()
+        else:
+            st.error("Invalid username or password")
+    st.stop()
+
 # In[ ]:
 
 # ---------- Setup ----------
