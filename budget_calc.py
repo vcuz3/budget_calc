@@ -10,6 +10,7 @@ import datetime as dt
 import gspread
 import calendar
 import plotly.express as px
+import hashlib
 from google.oauth2.service_account import Credentials
 
 #%%
